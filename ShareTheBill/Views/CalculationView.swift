@@ -24,7 +24,7 @@ struct CalculationView: View {
     @State var peopleCount = 2
     
     // Stores the history of tip calculations
-    @State var history: [Result] = []   // Begins as empty list
+    @Binding var history: [Result]
     
     // MARK: Computed properties
     
@@ -97,7 +97,7 @@ struct CalculationView: View {
         
         // Return the amount per person
         return amountPerPerson
-
+        
     }
     
     // Format the amount each person pays, or show an error
@@ -111,7 +111,7 @@ struct CalculationView: View {
         
         // It could be calculated, so format it nicely
         return amount.formatted(.number.precision(.fractionLength(2)))
-
+        
     }
     
     
@@ -267,8 +267,11 @@ struct CalculationView: View {
                 List(history.reversed()) { somePriorResult in
                     ResultView(priorResult: somePriorResult)
                 }
-
+                
             }
+            
+            Spacer()
+            
         }
         .padding(.top, 10)
         .navigationTitle("Share the Bill")
@@ -278,7 +281,7 @@ struct CalculationView: View {
 struct CalculationView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
-            CalculationView()
+            CalculationView(history: Binding.constant(historyForPreviews))
         }
     }
 }
